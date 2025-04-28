@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tu peux forcer un fond dark global */
+body {
+  @apply bg-background text-foreground;
+}
