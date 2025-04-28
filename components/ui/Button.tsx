@@ -1,6 +1,7 @@
-import { Pressable, PressableProps, Text, ActivityIndicator, View } from "react-native";
+import { Pressable, PressableProps, ActivityIndicator, View } from "react-native";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { Text } from "./Text";
 
 const buttonVariants = cva(
   "flex-row items-center justify-center rounded-md",
@@ -55,10 +56,9 @@ export const Button = ({
         disabled && "opacity-50",
         className
       )}
-      disabled={disabled || isLoading}
       {...props}
     >
-      {isLoading ? (
+      {/* {isLoading ? (
         <ActivityIndicator size="small" color="white" />
       ) : (
         <View className="flex-row items-center justify-center space-x-2">
@@ -68,7 +68,8 @@ export const Button = ({
           )}
           {iconRight && <View>{iconRight}</View>}
         </View>
-      )}
+      )} */}
+      <Text>{title}</Text>
     </Pressable>
   );
 };

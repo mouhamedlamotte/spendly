@@ -1,21 +1,13 @@
 import { Transaction } from "@/db/schema";
 import { drizzle, useLiveQuery } from "drizzle-orm/expo-sqlite";
 import { useSQLiteContext } from "expo-sqlite";
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, View } from "react-native";
 import * as schema from "@/db/schema";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "@/components/ui/Text";
 import { Row } from "@/components/row";
-import {
-    BanknoteArrowDown,
-    BanknoteArrowUp,
-  Bell,
-  DollarSign,
-  Eye,
-  EyeOff,
-  Plus,
-} from "lucide-react-native";
+import { Bell, Eye, EyeOff, Plus } from "lucide-react-native";
 import { IconButton } from "@/components/ui/icon-button";
 import { cn, formatCurrency } from "@/lib/utils";
 import { BankCard } from "@/components/BankCard";
@@ -24,8 +16,7 @@ import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 export default function Index() {
   const db = useSQLiteContext();
   const drizzleDB = drizzle(db, { schema });
-useDrizzleStudio(db)
-  
+  useDrizzleStudio(db);
 
   const { data } = useLiveQuery(drizzleDB.select().from(schema.transactions));
 
@@ -44,7 +35,18 @@ useDrizzleStudio(db)
         </View>
         <IconButton className="ml-auto" icon={Bell} />
       </Row>
-      <View className=" border  rounded-xl bg-black py-4 ps-4 mt-2">
+      <View
+        className="mt-4 border  rounded-xl bg-black py-4 ps-4"
+        style={{
+          elevation: 4,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+        }}
+      >
         {/* Balance */}
         <View className=" gap-2">
           <Text className="text-xl font-bold">Solde</Text>
@@ -110,6 +112,7 @@ useDrizzleStudio(db)
                 expiryDate={item.expiryDate}
                 balance={item.balance}
                 isPrimary={item.isPrimary}
+                className="w-72"
               />
             )}
             keyExtractor={(item) => item.id}
@@ -133,15 +136,6 @@ useDrizzleStudio(db)
           renderItem={({ item }) => (
             <View className="flex-row items-center justify-between mt-4">
               <View className="flex-row items-center gap-2">
-                <View className="h-14 w-14 rounded-xl  items-center justify-center">
-                  <IconButton
-                    className="bg-transparent border-0 stroke-none"
-                    
-                    variant="outline"
-                    icon={item.type === "income" ? BanknoteArrowUp : BanknoteArrowDown}
-                    iconColor={item.type === "income" ? "green" : "red"}
-                  />
-                </View>
                 <View>
                   <Text className="text-base font-semibold">{item.title}</Text>
                   <Text className="text-sm text-muted-light">
@@ -161,6 +155,7 @@ useDrizzleStudio(db)
             </View>
           )}
           className="mt-4"
+          contentContainerStyle={{ paddingBottom: 120 }}
           showsVerticalScrollIndicator={true}
         />
       </View>

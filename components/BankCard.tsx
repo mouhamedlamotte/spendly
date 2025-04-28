@@ -6,6 +6,7 @@ import { Text } from "./ui/Text";
 type CardType = "visa" | "mastercard" | "orange-money" | "wave";
 
 type BankCardProps = {
+  className?: string;
   type: CardType;
   isMobileMoney: boolean;
   identifier: string; // Numéro de carte OU numéro de téléphone
@@ -37,6 +38,7 @@ export function BankCard({
   balance,
   isPrimary = false,
   currency = "FCFA",
+  className,
 }: BankCardProps) {
   const renderLogo = () => {
     switch (type) {
@@ -71,9 +73,10 @@ export function BankCard({
     <ImageBackground
     source={require("../assets/images/motif.png")}
     className={cn(
-      "h-48 w-72 p-5 rounded-2xl justify-between overflow-hidden",
+      "p-5 rounded-2xl justify-between overflow-hidden",
       cardColors.text,
-      cardColors.borders[type]
+      cardColors.borders[type],
+      className,
     )}
     resizeMode="cover"
   >
